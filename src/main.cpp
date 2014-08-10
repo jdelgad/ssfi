@@ -2,25 +2,30 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
-#include <sys/stat.h>
 
-void check_directory(const std::string &dir)
+#include <boost/filesystem.hpp>
+
+void check_directory(const boost::filesystem::path &path)
 {
-    struct stat st;
-
-    const char *directory = dir.c_str();
-
-    if (stat(directory, &st) != 0)
+    if (boost::filesystem::exists(path))
     {
-        std::cerr << "ERROR: Directory argument " << dir
-                  << " does not exist" << std::endl;
-        exit(-1);
+      if (boost::filesystem::is_regular_file(path))
+      {
+        std::cout << path << " size is " << boost::filesystem::file_size(path) << '\n';
+      }
+
+      else if (boost::filesystem::is_directory(path))
+      {
+        std::cout << path << " is a directory\n";
+      }
+      else
+      {
+        std::cout << path << " exists, but is neither a regular file nor a directory\n";
+      }
     }
-    if (S_ISDIR(st.st_mode) == 0)
+    else
     {
-        std::cerr << "ERROR: Argument " << dir
-                  << " passed in is not a directory" << std::endl;
-        exit(-1);
+      std::cout << path << " does not exist\n";
     }
 }
 
@@ -42,9 +47,9 @@ int main(int argc, char *argv[])
 
     std::vector<std::string> arguments(argv + 1, argv + argc);
 
-    const std::string directory = parse_args(arguments);
+    boost::filesystem::path path(parse_args(arguments));
 
-    check_directory(directory);
+    check_directory(path);
 
 
     return 0;

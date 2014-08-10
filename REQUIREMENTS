@@ -1,4 +1,5 @@
 Super Simple File Indexer
+
 Create a multi-threaded text file indexing command line application that works as follows:
 1. Accept as input a file path on the command line. Please name the executable ssfi. For
 example, we'd be able to run your application like this:  ./ssfi /usr/share/doc

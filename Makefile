@@ -1,6 +1,6 @@
 CC = /usr/bin/clang++
 CFLAGS = --std=c++11 -Wall -Wextra
-LDFLAGS = -pthread
+LDFLAGS = -pthread -lboost_system -lboost_filesystem
 INCLUDE = -I/usr/include/boost
 
 all: src/main.cpp
