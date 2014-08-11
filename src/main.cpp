@@ -1,13 +1,20 @@
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <string>
-#include <thread>
 #include <vector>
 
-#include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/program_options.hpp>
+#include <boost/thread.hpp>
+
+#include "file_locator.h"
+#include "worker.h"
 
 void check_directory(const boost::filesystem::path &path)
+// check the file system path and if it's not a file or symbolic link it must
+// be a directory
 {
     if (boost::filesystem::exists(path))
     {
@@ -28,12 +35,15 @@ void check_directory(const boost::filesystem::path &path)
     else
     {
         std::cerr << "ERROR: passed in argument does not exist in the "
-                  << "filesystem (" << path << ")" << std::endl;
+                  << "file system (" << path << ")" << std::endl;
         exit(-1);
     }
 }
 
 void parse_args(int argc, char *argv[], int &N, std::string &path)
+// parse the arguments passed in to the program and based on the flags used
+// the number_of_threads and directory vars should be set properly if this
+// returns; the system exits if an error occurs
 {
     boost::program_options::options_description desc("Allowed options");
     desc.add_options()
@@ -48,8 +58,7 @@ void parse_args(int argc, char *argv[], int &N, std::string &path)
 
     try
     {
-        boost::program_options::store(
-                boost::program_options::parse_command_line(argc, argv, desc),
+        boost::program_options::store( boost::program_options::parse_command_line(argc, argv, desc),
                 variables_map);
 
         if (variables_map.count("help"))
@@ -66,8 +75,12 @@ void parse_args(int argc, char *argv[], int &N, std::string &path)
         exit(-1);
     }
 
-    std::cout << "N = " << N << std::endl;
-    std::cout << "directory = " << path << std::endl;
+    if (N <= 0)
+    {
+        std::cerr << "ERROR: -N argument must be greater than or equal to 1"
+                  << std::endl;
+        exit(-1);
+    }
 }
 
 int main(int argc, char *argv[])
@@ -81,5 +94,19 @@ int main(int argc, char *argv[])
 
     check_directory(path);
 
+    BOOST_LOG_TRIVIAL(info) << "Finding text files under " << directory;
+    BOOST_LOG_TRIVIAL(info) << "Number of worker threads to read in text "
+                            << "files: " << number_of_threads;
+
+
+    Worker worker_threads{number_of_threads};
+    FileLocator file_locator{".txt"};
+
+    // Requirement 1: start up a thread to find all of the files passed in via
+    // a command line argument
+    boost::thread find_files(&FileLocator::recursively_find_files,
+            &file_locator, path);
+
+    find_files.join();
     return 0;
 }
