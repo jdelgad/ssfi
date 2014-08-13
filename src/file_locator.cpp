@@ -32,7 +32,7 @@ void FileLocator::recursively_find_files(const boost::filesystem::path &path)
         if (dir_iter->path().extension() == ".txt")
         {
             boost::filesystem::path path = dir_iter->path();
-            BOOST_LOG_TRIVIAL(trace) << "Found " << path;
+            BOOST_LOG_TRIVIAL(info) << "Found " << path;
             m_worker_queue_ptr->add(boost::bind(&Parser::parse_file, &m_parser, path));
         }
     }

@@ -9,10 +9,10 @@
 #define _PARSER_H_
 
 #include <map>
-#include <mutex>
 #include <string>
 
 #include <boost/filesystem.hpp>
+#include <boost/thread.hpp>
 
 class Parser
 {
@@ -23,13 +23,13 @@ class Parser
         void parse_file(boost::filesystem::path path);
 
         std::map<std::string, int> get_word_count_map();
+        std::multimap<int, std::string> get_count_word_map();
 
     private:
-
-        void merge_data(const std::map<std::string, int> word_count_map);
-        std::mutex m_mutex;
+        // don't need to pass by const value due to std::move for std::map
+        void merge_data(std::map<std::string, int> word_count_map);
+        boost::mutex m_mutex;
         std::map<std::string, int> m_word_count_map;
-        std::map<int, std::vector<std::string>> m_count_word_map;
 };
 
 

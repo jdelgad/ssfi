@@ -17,6 +17,20 @@
 #include "worker_queue.h"
 #include "boost_asio_queue.h"
 
+
+void print_top_words(int num, std::multimap<int, std::string> count_word_map)
+// since std::map sorts by std::less on keys and the key is of type integer
+// by getting the end of the map and iterating backward we can find the
+// largest word counts for each word
+{
+    auto iter = count_word_map.rbegin();
+    for (int i = 1; i <= num && iter != count_word_map.rend(); ++i, ++iter)
+    {
+        BOOST_LOG_TRIVIAL(trace) << i << " " << iter->second << ": " << iter->first;
+        std::cout << i << ") " << iter->second << ": " << iter->first << std::endl;
+    }
+}
+
 void check_directory(const boost::filesystem::path &path)
 // check the file system path and if it's not a file or symbolic link it must
 // be a directory
@@ -54,8 +68,8 @@ void parse_args(int argc, char *argv[], int &N, std::string &path)
     boost::program_options::options_description desc("Allowed options");
     desc.add_options()
             ("help,h", "Display help message")
-            ("dir,d",
-             boost::program_options::value<std::string>(&path)->required(),
+            ("verbose,v", "Increase verbosity")
+            ("dir,d", boost::program_options::value<std::string>(&path)->required(),
              "Directory to search for text files")
             ("N", boost::program_options::value<int>(&N)->default_value(3),
              "The number of threads to parse the text files");
@@ -64,7 +78,7 @@ void parse_args(int argc, char *argv[], int &N, std::string &path)
 
     try
     {
-        boost::program_options::store( boost::program_options::parse_command_line(argc, argv, desc),
+        boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc),
                 variables_map);
 
         if (variables_map.count("help"))
@@ -74,6 +88,7 @@ void parse_args(int argc, char *argv[], int &N, std::string &path)
         }
 
         boost::program_options::notify(variables_map);
+
     } catch (const boost::program_options::error &e)
     {
         std::cerr << "ERROR: " << e.what() << std::endl;
@@ -87,13 +102,21 @@ void parse_args(int argc, char *argv[], int &N, std::string &path)
                   << std::endl;
         exit(-1);
     }
+
+    if (variables_map.count("verbose"))
+    {
+        boost::log::core::get()->set_filter(
+            boost::log::trivial::severity >= boost::log::trivial::trace);
+    }
+    else
+    {
+        boost::log::core::get()->set_filter(
+            boost::log::trivial::severity >= boost::log::trivial::info);
+    }
 }
 
 int main(int argc, char *argv[])
 {
-    boost::log::core::get()->set_filter(
-           boost::log::trivial::severity >= boost::log::trivial::trace
-       );
     int number_of_threads{0};
     std::string directory;
 
@@ -123,12 +146,14 @@ int main(int argc, char *argv[])
     worker_queue_ptr->clear();
     worker_queue_ptr->join();
 
+    BOOST_LOG_TRIVIAL(trace) << "End of worker queue";
+
     auto&& parser = file_locator.get_parser();
-    auto word_count_map = parser.get_word_count_map();
-    std::multimap<int, std::string> final_count;
-    //std::transform(word_count_map.begin(), word_count_map.end(),
-    //        final_count.begin(),
-    //        [](std::pair<std::string, int> p) {
-    //            //return std::pair<int, std::string>(p.second, p.first);
+    auto count_word_map = parser.get_count_word_map();
+
+    BOOST_LOG_TRIVIAL(trace) << "length of map = " << count_word_map.size() << std::endl;
+
+    print_top_words(10, count_word_map);
+
     return 0;
 }
