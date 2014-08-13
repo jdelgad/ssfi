@@ -9,7 +9,6 @@
 
 #include <cassert>
 
-#include <boost/filesystem.hpp>
 #include <boost/log/trivial.hpp>
 
 FileLocator::FileLocator(const std::string &file_extension,

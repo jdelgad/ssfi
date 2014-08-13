@@ -62,7 +62,7 @@ void Parser::merge_data(std::map<std::string, int> word_count_map)
     BOOST_LOG_TRIVIAL(trace) << "length of map is now = " << m_word_count_map.size();
 }
 
-std::map<std::string, int> Parser::get_word_count_map()
+std::map<std::string, int> Parser::get_word_count_map() const
 {
     BOOST_LOG_TRIVIAL(trace) << "Parser::get_word_count_map()";
     return m_word_count_map;

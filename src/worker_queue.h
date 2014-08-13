@@ -19,6 +19,7 @@ class WorkerQueue
     public:
         explicit WorkerQueue(int number_of_threads);
 
+        // use non-virtual idiom
         void spawn_threads();
         void add(boost::function<void(void)> task);
         void join();
@@ -45,8 +46,5 @@ class WorkerQueue
 
         int m_num_threads;
 };
-
-
-
 
 #endif /* WORKER_H_ */

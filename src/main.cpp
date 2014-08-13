@@ -26,7 +26,6 @@ void print_top_words(int num, std::multimap<int, std::string> count_word_map)
     auto iter = count_word_map.rbegin();
     for (int i = 1; i <= num && iter != count_word_map.rend(); ++i, ++iter)
     {
-        BOOST_LOG_TRIVIAL(trace) << i << " " << iter->second << ": " << iter->first;
         std::cout << i << ") " << iter->second << ": " << iter->first << std::endl;
     }
 }
@@ -135,7 +134,7 @@ int main(int argc, char *argv[])
             std::make_shared<BoostAsIOQueue>(number_of_threads);
     worker_queue_ptr->spawn_threads();
 
-    FileLocator file_locator(".txt", worker_queue_ptr);
+    FileLocator file_locator{".txt", worker_queue_ptr};
 
     // Requirement 2: start up a thread to find all of the files passed in via
     // a command line argument
@@ -146,12 +145,11 @@ int main(int argc, char *argv[])
     worker_queue_ptr->clear();
     worker_queue_ptr->join();
 
-    BOOST_LOG_TRIVIAL(trace) << "End of worker queue";
+    BOOST_LOG_TRIVIAL(trace) << "Worker queue finished";
 
-    auto&& parser = file_locator.get_parser();
-    auto count_word_map = parser.get_count_word_map();
+    const auto count_word_map = file_locator.get_parser().get_count_word_map();
 
-    BOOST_LOG_TRIVIAL(trace) << "length of map = " << count_word_map.size() << std::endl;
+    BOOST_LOG_TRIVIAL(trace) << "length of map = " << count_word_map.size();
 
     print_top_words(10, count_word_map);
 
