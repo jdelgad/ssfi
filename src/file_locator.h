@@ -12,13 +12,22 @@
 
 #include <boost/filesystem.hpp>
 
-#include "worker.h"
+#include "worker_queue.h"
+
+#include <string>
+#include <memory>
+#include <boost/filesystem/path.hpp>
+
+#include "parser.h"
 
 class FileLocator
 {
     public:
-        FileLocator(const std::string &file_extension);
-        void recursively_find_files(const boost::filesystem::path &path) const;
+        FileLocator(const std::string &file_extension,
+                    const std::shared_ptr<WorkerQueue> &worker_queue_ptr);
+        void recursively_find_files(const boost::filesystem::path &path);
+
+        Parser&& get_parser();
     private:
         FileLocator() = delete;
         FileLocator(FileLocator &) = delete;
@@ -27,8 +36,8 @@ class FileLocator
         FileLocator&& operator=(FileLocator &&) = delete;
 
         std::string m_file_extension;
+        std::shared_ptr<WorkerQueue> m_worker_queue_ptr;
+        Parser m_parser;
 };
-
-
 
 #endif /* FILE_LOCATOR_H_ */
