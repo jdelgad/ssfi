@@ -1,0 +1,29 @@
+I used a mix of C++11 and boost. I wasn't quite sure when to use C++11 features
+where both C++11 and Boost have implemented the same feature; while C++11
+adopted these features from boost, it may not be a straight port perhaps due
+to licensing issues.
+
+C++11 nor Boost have a threadpool library sadly. I created a WorkerQueue
+abstract class to hide the implementation details that I used with the
+BoostAsIOQueue subclass. I decided to implement this using a asynchronous
+threadpool (asynchronous being the "new hotness" as seen by things like
+NodeJS and even C++11). By also abstracting this out I'm hoping it could be
+easily swapped out with a different implementation based on C++11 threading
+or C++11 async models; but due to premature optimization issues I wouldn't
+recommend it unless it was profiled to have poor performance. Doing this also
+enabled me to create a unit test--'test_file_locator'--that uses a mock object
+so that testing can be done in a single thread for the FileLocator class.
+Debugging multithreaded apps can be extremely costly and time consuming. I
+would hope that this would alleviate those concerns.
+
+I put everything in a namespace (solidfire) to avoid naming collisions as well
+as it being a good coding practice.
+
+While I used C++11 features such as declarative data members (see parser.h),
+auto, shared_ptr, etc... there is definite room for improvement, especially in
+the realm of std::move. I'm hoping Scott Meyer's "Effective Modern C++" can
+help clarify when to use them and the differences in what he explains as lvalue,
+rvalue and Universal references. Being that I don't code in C++11 daily it's
+still a mind warp.
+
+-Jacob
