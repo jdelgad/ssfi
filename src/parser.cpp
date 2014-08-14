@@ -39,13 +39,21 @@ void Parser::parse_file(boost::filesystem::path path)
         boost::sregex_token_iterator last_word_iter;
         while (current_word_iter != last_word_iter)
         {
-            if (word_count.count(*current_word_iter))
+            BOOST_LOG_TRIVIAL(trace) << "Parsing word " << *current_word_iter;
+
+            // make a copy of the word we tokenized and then transfer it to
+            // lowercase only
+            std::string lowercase_cw = *current_word_iter;
+            std::transform(lowercase_cw.begin(), lowercase_cw.end(),
+                           lowercase_cw.begin(), ::tolower);
+
+            if (word_count.count(lowercase_cw))
             {
-                ++word_count[*current_word_iter];
+                ++word_count[lowercase_cw];
             }
             else
             {
-                word_count[*current_word_iter] = 1;
+                word_count[lowercase_cw] = 1;
             }
 
             ++current_word_iter;

@@ -4,3 +4,5 @@
 .o
 *~
 ssfi
+test_parser
+test_file_locator

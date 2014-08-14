@@ -31,15 +31,25 @@ void FileLocator::recursively_find_files(const boost::filesystem::path &path)
 
     for ( ; dir_iter != end_iter; ++dir_iter)
     {
-        if (dir_iter->path().extension() == ".txt")
+        if (dir_iter->path().extension() == m_file_extension)
         {
             boost::filesystem::path path = dir_iter->path();
             BOOST_LOG_TRIVIAL(info) << "Found " << path;
             m_worker_queue_ptr->add(boost::bind(&Parser::parse_file, &m_parser, path));
+
+#ifdef SOLIDFIRE_TESTING
+            m_files_found.emplace_back(path.string());
+#endif
         }
     }
 }
 
+#ifdef SOLIDFIRE_TESTING
+std::vector<std::string> FileLocator::get_files() const
+{
+    return m_files_found;
+}
+#endif
 Parser&& FileLocator::get_parser()
 {
     BOOST_LOG_TRIVIAL(trace) << "FileLocator::get_parser()";

@@ -33,6 +33,10 @@ class FileLocator
         // need to return a std::move reference since the Parser class has a
         // boost::mutex data member
         Parser&& get_parser();
+
+#ifdef SOLIDFIRE_TESTING
+        std::vector<std::string> get_files() const;
+#endif
     private:
         FileLocator() = delete;
         FileLocator(FileLocator &) = delete;
@@ -40,6 +44,9 @@ class FileLocator
         FileLocator& operator=(FileLocator &) = delete;
         FileLocator&& operator=(FileLocator &&) = delete;
 
+#ifdef SOLIDFIRE_TESTING
+        std::vector<std::string> m_files_found;
+#endif
         std::string m_file_extension;
         std::shared_ptr<WorkerQueue> m_worker_queue_ptr;
         Parser m_parser;
