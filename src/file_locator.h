@@ -17,6 +17,9 @@
 #include "parser.h"
 #include "worker_queue.h"
 
+namespace solidfire
+{
+
 class FileLocator
 {
     public:
@@ -27,6 +30,8 @@ class FileLocator
 
         void recursively_find_files(const boost::filesystem::path &path);
 
+        // need to return a std::move reference since the Parser class has a
+        // boost::mutex data member
         Parser&& get_parser();
     private:
         FileLocator() = delete;
@@ -40,4 +45,5 @@ class FileLocator
         Parser m_parser;
 };
 
+}
 #endif /* FILE_LOCATOR_H_ */

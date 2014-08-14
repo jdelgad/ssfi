@@ -14,6 +14,9 @@
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 
+namespace solidfire
+{
+
 class WorkerQueue
 {
     public:
@@ -47,4 +50,5 @@ class WorkerQueue
         int m_num_threads;
 };
 
+}
 #endif /* WORKER_H_ */

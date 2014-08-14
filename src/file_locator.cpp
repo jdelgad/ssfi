@@ -11,6 +11,9 @@
 
 #include <boost/log/trivial.hpp>
 
+namespace solidfire
+{
+
 FileLocator::FileLocator(const std::string &file_extension,
         const std::shared_ptr<WorkerQueue> &worker_queue_ptr)
   : m_file_extension(file_extension),
@@ -41,4 +44,6 @@ Parser&& FileLocator::get_parser()
 {
     BOOST_LOG_TRIVIAL(trace) << "FileLocator::get_parser()";
     return std::move(m_parser);
+}
+
 }

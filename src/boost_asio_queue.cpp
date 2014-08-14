@@ -9,8 +9,8 @@
 
 #include <boost/log/trivial.hpp>
 
-void foo() {
-}
+namespace solidfire
+{
 
 BoostAsIOQueue::BoostAsIOQueue(int number_of_threads)
  : WorkerQueue(number_of_threads),
@@ -57,3 +57,4 @@ void BoostAsIOQueue::quit()
     m_io_service.stop();
 }
 
+}

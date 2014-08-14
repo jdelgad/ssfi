@@ -15,33 +15,51 @@
 #include <vector>
 
 #include <boost/log/trivial.hpp>
+#include <boost/regex.hpp>
+
+namespace solidfire
+{
 
 void Parser::parse_file(boost::filesystem::path path)
+
 {
     BOOST_LOG_TRIVIAL(trace) << "Parser::parse_file()";
     std::ifstream ifile(path.string());
     std::map<std::string, int> word_count;
     std::string word;
+    std::vector<std::string> string_vector;
 
     if (!ifile.good())
       return;
 
     while (ifile >> word)
     {
-        if (word_count.count(word))
+        //std::cout << "word = " << word << std::endl;
+        boost::sregex_token_iterator current_word_iter(word.begin(), word.end(), m_re, 0);
+        boost::sregex_token_iterator last_word_iter;
+        while (current_word_iter != last_word_iter)
         {
-            ++word_count[word];
-        }
-        else
-        {
-            word_count[word] = 1;
+            if (word_count.count(*current_word_iter))
+            {
+                ++word_count[*current_word_iter];
+            }
+            else
+            {
+                word_count[*current_word_iter] = 1;
+            }
+
+            ++current_word_iter;
         }
     }
 
+    // since this is shared data across multiple threads, use a different
+    // function and note the lock_guard clause
     merge_data(word_count);
 }
 
 void Parser::merge_data(std::map<std::string, int> word_count_map)
+// merges the existing data map with new data read in; uses lock_guard for
+// the entire enclosing function
 {
     BOOST_LOG_TRIVIAL(trace) << "Parser::merge_data()";
 
@@ -81,4 +99,6 @@ std::multimap<int, std::string> Parser::get_count_word_map()
     });
 
     return count_word_map;
+}
+
 }

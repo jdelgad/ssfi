@@ -9,6 +9,9 @@
 
 #include <boost/log/trivial.hpp>
 
+namespace solidfire
+{
+
 WorkerQueue::WorkerQueue(int number_of_threads)
   : m_num_threads(number_of_threads)
 {
@@ -53,4 +56,6 @@ void WorkerQueue::stop()
 {
     BOOST_LOG_TRIVIAL(trace) << "WorkerQueue::stop()";
     quit();
+}
+
 }

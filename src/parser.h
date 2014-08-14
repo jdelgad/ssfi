@@ -12,7 +12,11 @@
 #include <string>
 
 #include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
 #include <boost/thread.hpp>
+
+namespace solidfire
+{
 
 class Parser
 {
@@ -38,9 +42,12 @@ class Parser
 
         boost::mutex m_mutex;
         std::map<std::string, int> m_word_count_map;
+
+        // define a regex for every instance of this class; use perl regexes
+        // and ignore case sensitivity
+        boost::regex m_re = boost::regex("[\\w|\\d]+",boost::regex::perl|boost::regex::icase);
 };
 
-
-
+}
 
 #endif /* PARSER_H_ */

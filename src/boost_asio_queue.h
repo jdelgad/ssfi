@@ -15,6 +15,9 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
+namespace solidfire
+{
+
 class BoostAsIOQueue : public WorkerQueue
 {
     public:
@@ -41,5 +44,7 @@ class BoostAsIOQueue : public WorkerQueue
         std::shared_ptr<boost::asio::io_service::work> m_work_ptr;
         boost::thread_group m_threads;
 };
+
+}
 
 #endif /* BOOST_ASIO_QUEUE_H_ */
