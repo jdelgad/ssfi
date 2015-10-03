@@ -2,7 +2,7 @@
  * boost_asio_queue.h
  *
  *  Created on: Aug 11, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #ifndef BOOST_ASIO_QUEUE_H_
@@ -15,7 +15,7 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
-namespace solidfire
+namespace ssfi
 {
 
 class BoostAsIOQueue : public WorkerQueue

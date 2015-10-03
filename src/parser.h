@@ -2,7 +2,7 @@
  * parser.h
  *
  *  Created on: Aug 10, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #ifndef _PARSER_H_
@@ -15,7 +15,7 @@
 #include <boost/regex.hpp>
 #include <boost/thread.hpp>
 
-namespace solidfire
+namespace ssfi
 {
 
 class Parser

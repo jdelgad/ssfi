@@ -2,7 +2,7 @@
  * worker.h
  *
  *  Created on: Aug 10, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #ifndef WORKER_H_
@@ -14,7 +14,7 @@
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 
-namespace solidfire
+namespace ssfi
 {
 
 class WorkerQueue

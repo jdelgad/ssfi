@@ -2,7 +2,7 @@
  * parser.cpp
  *
  *  Created on: Aug 10, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #include "parser.h"
@@ -17,7 +17,7 @@
 #include <boost/log/trivial.hpp>
 #include <boost/regex.hpp>
 
-namespace solidfire
+namespace ssfi
 {
 
 void Parser::parse_file(boost::filesystem::path path)

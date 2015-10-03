@@ -2,14 +2,14 @@
  * worker.cpp
  *
  *  Created on: Aug 10, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #include "boost_asio_queue.h"
 
 #include <boost/log/trivial.hpp>
 
-namespace solidfire
+namespace ssfi
 {
 
 BoostAsIOQueue::BoostAsIOQueue(int number_of_threads)

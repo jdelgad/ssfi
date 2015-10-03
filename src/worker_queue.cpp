@@ -2,14 +2,14 @@
  * worker_queue.cpp
  *
  *  Created on: Aug 11, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #include "worker_queue.h"
 
 #include <boost/log/trivial.hpp>
 
-namespace solidfire
+namespace ssfi
 {
 
 WorkerQueue::WorkerQueue(int number_of_threads)

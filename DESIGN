@@ -16,7 +16,7 @@ so that testing can be done in a single thread for the FileLocator class.
 Debugging multithreaded apps can be extremely costly and time consuming. I
 would hope that this would alleviate those concerns.
 
-I put everything in a namespace (solidfire) to avoid naming collisions as well
+I put everything in a namespace (ssfi) to avoid naming collisions as well
 as it being a good coding practice.
 
 While I used C++11 features such as declarative data members (see parser.h),

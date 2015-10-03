@@ -2,7 +2,7 @@
  * test_file_locator.cpp
  *
  *  Created on: Aug 11, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #include "parser.h"
@@ -15,7 +15,7 @@ int main()
                                                "unit_test/files/animal/bird/tweety.txt",
                                                "unit_test/files/foo/bar/foobar.txt"};
 
-    solidfire::Parser parser;
+    ssfi::Parser parser;
 
     for (auto &f : files)
     {

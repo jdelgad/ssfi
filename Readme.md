@@ -1,13 +1,6 @@
-Files included
-========================
-REQUIREMENTS - The email I received from Tyler explaining the assignment
-ASSUMPTIONS  - Assumptions I had when building the file
-DESIGN       - I try and explain some of my design decisions
-
-
 How to build
 ==============
-Type 'make' in the solidfire directory
+Type 'make' in the ssfi directory
 
 
 Files built
@@ -30,11 +23,6 @@ My experience with boost prior to this exercise was minimal. I was quite
 impressed with it and would definitely look forward to using it along with
 C++11.
 
-The unit testing uncovered bugs and reiterated the need for writing good tests.
-I wish I had more time; if I did I would write a test for the worker queue
-Boost ASIO subclass I created.
+If I had enough time I would write a test for the worker queue Boost ASIO subclass I created.
 
-My unit tests are very simple. They assert on simple checks and wouldn't provide
-the best feedback to a developer, but are a starting point. Hopefully you guys
-use gtest or cppunit or some other C++ testing framework. I didn't want
-another depdendency.
+My unit tests are very simple. They assert on simple checks and wouldn't provideothe best feedback to a developer, but are a starting point.

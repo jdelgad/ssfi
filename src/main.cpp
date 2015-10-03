@@ -17,7 +17,7 @@
 #include "worker_queue.h"
 #include "boost_asio_queue.h"
 
-namespace solidfire {
+namespace ssfi {
 
 void print_top_words(int num, std::multimap<int, std::string> count_word_map)
 // since std::map sorts by std::less on keys and the key is of type integer
@@ -122,11 +122,11 @@ int main(int argc, char *argv[])
     int number_of_threads{0};
     std::string directory;
 
-    solidfire::parse_args(argc, argv, number_of_threads, directory);
+    ssfi::parse_args(argc, argv, number_of_threads, directory);
 
     boost::filesystem::path path(directory);
 
-    solidfire::check_directory(path);
+    ssfi::check_directory(path);
 
     BOOST_LOG_TRIVIAL(info) << "Finding text files under " << directory;
     BOOST_LOG_TRIVIAL(info) << "Number of worker threads to read in text "
@@ -134,14 +134,14 @@ int main(int argc, char *argv[])
 
     //std::shared_ptr<WorkerQueue> worker_queue_ptr =
     auto worker_queue_ptr =
-            std::make_shared<solidfire::BoostAsIOQueue>(number_of_threads);
+            std::make_shared<ssfi::BoostAsIOQueue>(number_of_threads);
     worker_queue_ptr->spawn_threads();
 
-    solidfire::FileLocator file_locator{".txt", worker_queue_ptr};
+    ssfi::FileLocator file_locator{".txt", worker_queue_ptr};
 
     // Requirement 2: start up a thread to find all of the files passed in via
     // a command line argument
-    boost::thread find_files(&solidfire::FileLocator::recursively_find_files,
+    boost::thread find_files(&ssfi::FileLocator::recursively_find_files,
             &file_locator, path);
 
     find_files.join();
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 
     BOOST_LOG_TRIVIAL(trace) << "length of map = " << count_word_map.size();
 
-    solidfire::print_top_words(10, count_word_map);
+    ssfi::print_top_words(10, count_word_map);
 
     return 0;
 }

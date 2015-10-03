@@ -2,7 +2,7 @@ CC = /usr/bin/clang++
 CFLAGS = --std=c++11 -Wall -Wextra
 LDFLAGS = -pthread -lboost_system -lboost_filesystem -lboost_program_options -lboost_thread -lboost_log -lboost_regex
 INCLUDE = -I/usr/include/boost -Isrc
-DFLAGS = -DBOOST_LOG_DYN_LINK -DSOLIDFIRE_TESTING
+DFLAGS = -DBOOST_LOG_DYN_LINK -DSSFI_TESTING
 
 all: ssfi test_file_locator test_parser
 

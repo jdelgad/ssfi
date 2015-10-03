@@ -2,7 +2,7 @@
  * file_locator.h
  *
  *  Created on: Aug 10, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #ifndef FILE_LOCATOR_H_
@@ -17,7 +17,7 @@
 #include "parser.h"
 #include "worker_queue.h"
 
-namespace solidfire
+namespace ssfi
 {
 
 class FileLocator
@@ -34,7 +34,7 @@ class FileLocator
         // boost::mutex data member
         Parser&& get_parser();
 
-#ifdef SOLIDFIRE_TESTING
+#ifdef SSFI_TESTING
         std::vector<std::string> get_files() const;
 #endif
     private:
@@ -44,7 +44,7 @@ class FileLocator
         FileLocator& operator=(FileLocator &) = delete;
         FileLocator&& operator=(FileLocator &&) = delete;
 
-#ifdef SOLIDFIRE_TESTING
+#ifdef SSFI_TESTING
         std::vector<std::string> m_files_found;
 #endif
         std::string m_file_extension;

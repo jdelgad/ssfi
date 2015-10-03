@@ -2,7 +2,7 @@
  * test_file_locator.cpp
  *
  *  Created on: Aug 11, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #include "worker_queue.h"
@@ -16,9 +16,9 @@ int main()
 {
     int number_of_threads{0};
     boost::filesystem::path path("unit_test/files/");
-    std::shared_ptr<solidfire::WorkerQueue> worker_queue_ptr =
-            std::make_shared<solidfire::MockWorkerQueue>(number_of_threads);
-    solidfire::FileLocator file_locator(".txt", worker_queue_ptr);
+    std::shared_ptr<ssfi::WorkerQueue> worker_queue_ptr =
+            std::make_shared<ssfi::MockWorkerQueue>(number_of_threads);
+    ssfi::FileLocator file_locator(".txt", worker_queue_ptr);
     file_locator.recursively_find_files(path);
 
     std::vector<std::string> files{"unit_test/files/animal/dog/billie.txt",

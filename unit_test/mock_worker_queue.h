@@ -6,7 +6,7 @@
  * difficult.
  *
  *  Created on: Aug 11, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #ifndef MOCK_WORKER_QUEUE_H_
@@ -21,7 +21,7 @@
 
 #include "worker_queue.h"
 
-namespace solidfire
+namespace ssfi
 {
 
 class MockWorkerQueue : public WorkerQueue

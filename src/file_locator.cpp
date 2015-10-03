@@ -2,7 +2,7 @@
  * file_locator.cpp
  *
  *  Created on: Aug 10, 2014
- *      Author: jdelgad
+ *      Author: Jacob Delgado
  */
 
 #include "file_locator.h"
@@ -11,7 +11,7 @@
 
 #include <boost/log/trivial.hpp>
 
-namespace solidfire
+namespace ssfi
 {
 
 FileLocator::FileLocator(const std::string &file_extension,
@@ -37,14 +37,14 @@ void FileLocator::recursively_find_files(const boost::filesystem::path &path)
             BOOST_LOG_TRIVIAL(info) << "Found " << path;
             m_worker_queue_ptr->add(boost::bind(&Parser::parse_file, &m_parser, path));
 
-#ifdef SOLIDFIRE_TESTING
+#ifdef SSFI_TESTING
             m_files_found.emplace_back(path.string());
 #endif
         }
     }
 }
 
-#ifdef SOLIDFIRE_TESTING
+#ifdef SSFI_TESTING
 std::vector<std::string> FileLocator::get_files() const
 {
     return m_files_found;
